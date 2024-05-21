@@ -38,7 +38,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHost
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import tw.edu.pu.csim.hsiien.a411146376.ui.theme._411146376Theme
@@ -48,12 +48,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             _411146376Theme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //Greeting("Android")
                     Main()
                 }
             }
@@ -63,51 +61,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun FirstScreen(navController: NavController){
-    val context = LocalContext.current  //取得App的運行環境
-    var appear by remember { mutableStateOf(true) }  //背景出現
-    var expanded by remember { mutableStateOf(true) }
-
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.White),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start
-    )
-    {
-        Text(text = "瑪利亞基金會服務總覽" ,
-            color = Color.Blue
-        )
-        AnimatedVisibility(
-            visible = appear,
-            exit = fadeOut(
-                animationSpec = tween(durationMillis = 10000)
-            )
-
-        ) {
-
-            Image(
-                painterResource(id = R.drawable.service),
-                contentDescription = "button icon",
-                modifier = Modifier.size(500.dp)
-            )
-        }
-        Button(onClick = {
-            appear = false
-            navController.navigate("JumpSecond")
-        }) {
-            Text(text = "作者:資管系蔡譯嫺")
-        }
-
-    }
-}
-
-
-@Composable
-fun SecondScreen(navController: NavController) {
-    val context = LocalContext.current  //取得App的運行環境
-    var appear by remember { mutableStateOf(true) }  //背景出現
-    var expanded by remember { mutableStateOf(true) }  //背景延展
-
+    var appear by remember { mutableStateOf(true) }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -115,21 +69,53 @@ fun SecondScreen(navController: NavController) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
-        Text(
-            text = "關於App作者",
-            color = Color.Red
-        )
+        Text(text = "瑪利亞基金會服務總覽", color = Color.Blue)
+
         AnimatedVisibility(
             visible = appear,
-            enter = fadeIn(animationSpec = tween(durationMillis = 10000))
-
+            enter = fadeIn(animationSpec = tween(durationMillis = 3000)),
+            exit = fadeOut(animationSpec = tween(durationMillis = 3000))
         ) {
             Image(
-                painterResource(id = R.drawable.myself),
-                contentDescription = "button icon",
+                painter = painterResource(id = R.drawable.service),
+                contentDescription = "service icon",
                 modifier = Modifier.size(500.dp)
             )
         }
+
+        Button(onClick = {
+            appear = false
+            navController.navigate("JumpSecond")
+        }) {
+            Text(text = "作者:資管系蔡譯嫺")
+        }
+    }
+}
+
+@Composable
+fun SecondScreen(navController: NavController) {
+    var appear by remember { mutableStateOf(true) }
+
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.White),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(text = "關於App作者", color = Color.Blue)
+
+        AnimatedVisibility(
+            visible = appear,
+            enter = fadeIn(animationSpec = tween(durationMillis = 3000)),
+            exit = fadeOut(animationSpec = tween(durationMillis = 3000))
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.myself),
+                contentDescription = "author icon",
+                modifier = Modifier.size(500.dp)
+            )
+        }
+
         Button(onClick = {
             appear = true
             navController.navigate("JumpFirst")
@@ -140,66 +126,55 @@ fun SecondScreen(navController: NavController) {
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Main() {
     val navController = rememberNavController()
-    val context = LocalContext.current
     var showMenu by remember { mutableStateOf(false) }
-    _411146376Theme {
-        // Ensure that the TopAppBar is included in the Surface
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Column {
-                TopAppBar(
-                    title = {
-                        Image(
-                            painter = painterResource(id = R.drawable.maria),
-                            contentDescription = "button icon",
-                            modifier = Modifier.size(120.dp)
-                        )
-                    },
-                    actions = {
-                        IconButton(onClick = { showMenu = true }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "More")
-                        }
+    val context = LocalContext.current
 
-                        DropdownMenu(
-                            expanded = showMenu,
-                            onDismissRequest = { showMenu = false }
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text("簡介") },
-                                onClick = {
-                                    navController.navigate("JumpFirst")
-                                    showMenu = false
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text("主要機構") },
-                                onClick = {
-                                    val intent = Intent(context, SecondActivity::class.java)
-                                    context.startActivity(intent)
-                                    showMenu = false
-                                }
-                            )
-                        }
-                    }
+    Column {
+        TopAppBar(
+            title = {
+                Image(
+                    painter = painterResource(id = R.drawable.maria),
+                    contentDescription = "button icon",
+                    modifier = Modifier.size(120.dp)
                 )
-
-                NavHost(navController = navController, startDestination = "JumpFirst") {
-                    composable("JumpFirst") {
-                        FirstScreen(navController = navController)
-                    }
-                    composable("JumpSecond") {
-                        SecondScreen(navController = navController)
-                    }
+            },
+            actions = {
+                IconButton(onClick = { showMenu = true }) {
+                    Icon(Icons.Default.MoreVert, contentDescription = "More")
                 }
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("簡介") },
+                        onClick = {
+                            navController.navigate("JumpFirst")
+                            showMenu = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("主要機構") },
+                        onClick = {
+                            val intent = Intent(context, SecondActivity::class.java)
+                            context.startActivity(intent)
+                            showMenu = false
+                        }
+                    )
+                }
+            }
+        )
+        NavHost(navController = navController, startDestination = "JumpFirst") {
+            composable("JumpFirst") {
+                FirstScreen(navController = navController)
+            }
+            composable("JumpSecond") {
+                SecondScreen(navController = navController)
             }
         }
     }
 }
-
