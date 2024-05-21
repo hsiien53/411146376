@@ -73,16 +73,17 @@ fun FirstScreen(navController: NavController){
 
         AnimatedVisibility(
             visible = appear,
-            enter = fadeIn(animationSpec = tween(durationMillis = 3000)),
-            exit = fadeOut(animationSpec = tween(durationMillis = 3000))
+
+            exit = fadeOut(
+                animationSpec = tween(durationMillis = 3000))
         ) {
+
             Image(
                 painter = painterResource(id = R.drawable.service),
-                contentDescription = "service icon",
+                contentDescription = "service",
                 modifier = Modifier.size(500.dp)
             )
         }
-
         Button(onClick = {
             appear = false
             navController.navigate("JumpSecond")
@@ -106,12 +107,13 @@ fun SecondScreen(navController: NavController) {
 
         AnimatedVisibility(
             visible = appear,
-            enter = fadeIn(animationSpec = tween(durationMillis = 3000)),
-            exit = fadeOut(animationSpec = tween(durationMillis = 3000))
+            enter = fadeIn(
+                initialAlpha = 0.1f,
+                animationSpec = tween(durationMillis = 3000))
         ) {
             Image(
                 painter = painterResource(id = R.drawable.myself),
-                contentDescription = "author icon",
+                contentDescription = "service",
                 modifier = Modifier.size(500.dp)
             )
         }
