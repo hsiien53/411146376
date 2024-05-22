@@ -90,7 +90,7 @@ fun FirstScreen1(navController: NavController) {
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = "「台中市愛心家園」經市政府公開評選後，委託瑪利亞基金會經營管理，於91年啟用，整棟建築物有四個樓層，目前開辦就醫、就養、就學、就業四大領域的十項業務，提供身心障礙者全方位的服務。",
+            text = "「台中市愛心家園」經市政府公開評選後，委託瑪利亞基金會經營管理，於91年啟用，整棟建築物有四個樓層，目前開辦就醫、就養、就學、就業四大領域的十項業務，提供身心障礙者全方位的服務。\n",
             color = Color.Black
         )
         Text(
@@ -101,7 +101,6 @@ fun FirstScreen1(navController: NavController) {
             painter = painterResource(id = R.drawable.lovehome),
             contentDescription = "button icon",
             modifier = Modifier
-                .size(500.dp)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onLongPress = {
@@ -138,7 +137,7 @@ fun SecondScreen2(navController: NavController) {
             painter = painterResource(id = R.drawable.campus),
             contentDescription = "button icon",
             modifier = Modifier
-                .size(500.dp)
+                
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onDoubleTap = {
