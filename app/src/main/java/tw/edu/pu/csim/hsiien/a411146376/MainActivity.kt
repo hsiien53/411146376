@@ -81,7 +81,7 @@ fun FirstScreen(navController: NavController){
             Image(
                 painter = painterResource(id = R.drawable.service),
                 contentDescription = "service",
-                modifier = Modifier.size(500.dp)
+                
             )
         }
         Button(onClick = {
@@ -114,7 +114,7 @@ fun SecondScreen(navController: NavController) {
             Image(
                 painter = painterResource(id = R.drawable.myself),
                 contentDescription = "service",
-                modifier = Modifier.size(500.dp)
+                
             )
         }
 
